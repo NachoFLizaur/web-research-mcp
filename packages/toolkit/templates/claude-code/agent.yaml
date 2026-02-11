@@ -1,9 +1,5 @@
 name: "{{name}}"
 description: "{{description}}"
-tools:
-  - Read
-  - Bash
-  - "web-research:*"
 mcpServers:
   web-research:
     command: npx
