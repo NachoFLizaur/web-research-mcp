@@ -33,7 +33,7 @@
   "author": "Nacho F. Lizaur",
   "repository": {
     "type": "git",
-    "url": "https://github.com/NachoFLizaur/web-research.git",
+    "url": "git+https://github.com/NachoFLizaur/web-research.git",
     "directory": "packages/toolkit"
   },
   "homepage": "https://github.com/NachoFLizaur/web-research#readme",
