@@ -1,0 +1,33 @@
+{
+  "name": "web-research-toolkit",
+  "version": "0.1.0",
+  "description": "Agent installer, prompts, and templates for web-research-mcp",
+  "type": "module",
+  "main": "dist/cli.js",
+  "bin": {
+    "web-research-toolkit": "dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "prompts",
+    "templates"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "lint": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.0",
+    "vitest": "^4.0.0"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT"
+}

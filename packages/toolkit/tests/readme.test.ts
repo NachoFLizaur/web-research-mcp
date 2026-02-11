@@ -1,16 +1,20 @@
 import { describe, it, expect } from "vitest";
 import { readFileSync, existsSync } from "node:fs";
+import { join } from "node:path";
+
+// README lives at the monorepo root (two levels up from packages/toolkit/)
+const README_PATH = join(__dirname, "..", "..", "..", "README.md");
 
 describe("README", () => {
   // Arrange — load README once for all tests
-  const readme = existsSync("README.md")
-    ? readFileSync("README.md", "utf-8")
+  const readme = existsSync(README_PATH)
+    ? readFileSync(README_PATH, "utf-8")
     : "";
 
   // POSITIVE: README exists and has substantial content
   it("exists and is non-empty", () => {
     // Act
-    const exists = existsSync("README.md");
+    const exists = existsSync(README_PATH);
     const lineCount = readme.split("\n").length;
     // Assert
     expect(exists).toBe(true);

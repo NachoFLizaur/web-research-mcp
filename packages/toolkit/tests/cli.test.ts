@@ -20,8 +20,8 @@ async function runCli(
   }
 }
 
-describe("CLI Routing", () => {
-  // POSITIVE: --help flag shows usage information (on stderr to avoid corrupting MCP stdio)
+describe("Toolkit CLI Routing", () => {
+  // POSITIVE: --help flag shows usage information
   it("help flag shows usage", async () => {
     // Arrange & Act
     const result = await runCli("--help");
@@ -45,7 +45,7 @@ describe("CLI Routing", () => {
     const result = await runCli("--version");
     // Assert
     expect(result.exitCode).toBe(0);
-    expect(result.stderr).toContain("web-research-mcp");
+    expect(result.stderr).toContain("web-research-toolkit");
   });
 
   // NEGATIVE: install without platform argument shows error
@@ -88,6 +88,15 @@ describe("CLI Routing", () => {
   it("unknown command shows error", async () => {
     // Arrange & Act
     const result = await runCli("foobar");
+    // Assert
+    expect(result.exitCode).toBe(1);
+    expect(result.stderr).toContain("Unknown command");
+  });
+
+  // NEGATIVE: no args shows error (toolkit requires install subcommand)
+  it("no args shows error", async () => {
+    // Arrange & Act
+    const result = await runCli();
     // Assert
     expect(result.exitCode).toBe(1);
     expect(result.stderr).toContain("Unknown command");

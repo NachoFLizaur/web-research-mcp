@@ -19,22 +19,6 @@ describe("Project Setup", () => {
     expect(content.startsWith("#!/usr/bin/env node")).toBe(true);
   });
 
-  // POSITIVE: Verifies prompts/ is included in npm package files
-  it("package.json includes prompts in files", () => {
-    // Arrange
-    const pkg = JSON.parse(readFileSync("package.json", "utf-8"));
-    // Act & Assert
-    expect(pkg.files).toContain("prompts/");
-  });
-
-  // POSITIVE: Verifies templates/ is included in npm package files
-  it("package.json includes templates in files", () => {
-    // Arrange
-    const pkg = JSON.parse(readFileSync("package.json", "utf-8"));
-    // Act & Assert
-    expect(pkg.files).toContain("templates/");
-  });
-
   // POSITIVE: Verifies bin entry exists for npx execution
   it("package.json has bin entry", () => {
     // Arrange
