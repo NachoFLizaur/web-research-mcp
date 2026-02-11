@@ -1,0 +1,13 @@
+{
+  "name": "web-research-mcp",
+  "description": "Web research tools — search the web and extract content from pages",
+  "version": "0.1.0",
+  "skills": [
+    "skills/web-search",
+    "skills/deep-research"
+  ],
+  "agents": [
+    "agents/web-searcher.md",
+    "agents/deep-researcher.md"
+  ]
+}

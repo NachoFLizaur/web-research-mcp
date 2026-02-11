@@ -1,0 +1,5 @@
+description: "{{description}}"
+mode: subagent
+tools:
+  web-research_*: true
+  fetch_*: false
