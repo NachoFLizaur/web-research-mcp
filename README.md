@@ -1,115 +1,109 @@
+<div align="center">
+
 # Web Research
 
-A web research toolkit for AI coding assistants — an MCP server for search and content extraction, plus pre-built agents for Claude Code and OpenCode.
+**A web research toolkit for AI coding assistants — search, extract, and synthesize with pre-built agents.**
+
+No API keys. One command to install. Works with Claude Code and OpenCode.
+
+[![npm: web-research-toolkit](https://img.shields.io/npm/v/web-research-toolkit?label=web-research-toolkit)](https://www.npmjs.com/package/web-research-toolkit)
+[![npm: web-research-mcp](https://img.shields.io/npm/v/web-research-mcp?label=web-research-mcp)](https://www.npmjs.com/package/web-research-mcp)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/NachoFLizaur/web-research/blob/main/LICENSE)
+[![Node.js](https://img.shields.io/badge/Node.js-%3E%3D18-green.svg)](https://nodejs.org)
+
+</div>
+
+---
+
+## Table of Contents
+
+- [Quick Start](#quick-start)
+- [What's Included](#whats-included)
+- [Agents & Skills](#agents--skills)
+- [MCP Tools](#mcp-tools)
+- [Development](#development)
+- [Contributing](#contributing)
+- [License](#license)
+
+---
+
+## Quick Start
+
+Install agents and skills for your platform:
+
+```bash
+npx web-research-toolkit install claude-code
+```
+
+or
+
+```bash
+npx web-research-toolkit install opencode
+```
+
+That's it. The installer configures the MCP server, installs agents, and sets up skills — no separate setup needed.
+
+<details>
+<summary><strong>Just want the MCP server?</strong></summary>
+
+If you only need the search and fetch tools (without agents), add the server to your MCP client config directly:
+
+```json
+{
+  "mcpServers": {
+    "web-research": {
+      "command": "npx",
+      "args": ["web-research-mcp"]
+    }
+  }
+}
+```
+
+</details>
+
+---
 
 ## What's Included
 
 This monorepo ships two npm packages:
 
-- **`web-research-mcp`** — MCP server with two tools: `multi_search` (DuckDuckGo) and `fetch_pages` (parallel content extraction)
-- **`web-research-toolkit`** — Installs pre-built AI agents and skills into your project for Claude Code or OpenCode
+| Package | Description |
+|---------|-------------|
+| [`web-research-mcp`](https://www.npmjs.com/package/web-research-mcp) | MCP server with two tools: `multi_search` (DuckDuckGo) and `fetch_pages` (parallel content extraction) |
+| [`web-research-toolkit`](https://www.npmjs.com/package/web-research-toolkit) | Installs pre-built AI agents and skills into your project for Claude Code or OpenCode |
 
-## Quick Start
-
-```bash
-# Install agents for your tool
-npx web-research-toolkit install claude-code
-# or
-npx web-research-toolkit install opencode
-```
-
-That's it. The toolkit installer configures the MCP server for you — no separate setup needed.
-
-## MCP Server
-
-The `web-research-mcp` package provides two MCP tools. If you only want the server (without agents), add it to your MCP client config manually:
-
-**Claude Code** (`.mcp.json` in project root):
-
-```json
-{
-  "mcpServers": {
-    "web-research": {
-      "command": "npx",
-      "args": ["web-research-mcp"]
-    }
-  }
-}
-```
-
-**OpenCode** (`opencode.json`):
-
-```json
-{
-  "mcpServers": {
-    "web-research": {
-      "command": "npx",
-      "args": ["web-research-mcp"]
-    }
-  }
-}
-```
-
-### multi_search
-
-Search the web using multiple queries via DuckDuckGo.
-
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `queries` | `string[]` | *(required)* | Search queries to execute |
-| `results_per_query` | `number` | `5` | Results per query |
-
-**Returns:** Deduplicated URLs, snippets, titles, and per-query mapping.
-
-### fetch_pages
-
-Fetch and extract clean text from multiple web pages in parallel.
-
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `urls` | `string[]` | *(required)* | URLs to fetch |
-| `max_chars` | `number` | `15000` | Max characters per page |
-| `timeout` | `number` | `30` | Timeout in seconds |
-
-**Returns:** Extracted text content, titles, and errors per URL.
+---
 
 ## Agents & Skills
 
-The toolkit installs **agents** (autonomous subagents with a defined workflow) and **skills** (on-demand expertise that agents load when needed).
+The toolkit installs **agents** (autonomous subagents with defined workflows) and **skills** (on-demand expertise that agents load when needed).
 
-### Agents
+**Agents:**
 
-- **`web-searcher`** — Quick web search agent. Runs a few targeted queries and returns URLs, snippets, or direct answers.
-- **`deep-researcher`** — Comprehensive multi-source research agent. Expands a research question into 10 diverse queries, searches all in parallel, fetches every result page, and synthesizes a detailed report with citations.
+- **`web-searcher`** — Quick web search. Runs a few targeted queries and returns URLs, snippets, or direct answers.
+- **`deep-researcher`** — Comprehensive multi-source research. Expands a question into 10 diverse queries, fetches every result, and synthesizes a detailed report with citations.
 
-### Skills
+**Skills:**
 
 - **`web-search`** — Search methodology and result handling
 - **`deep-research`** — Multi-phase research workflow
 
-### Installation
+See the [`web-research-toolkit` README](https://www.npmjs.com/package/web-research-toolkit) for full details on each agent and skill.
 
-**Claude Code:**
+---
 
-```bash
-npx web-research-toolkit install claude-code
-```
+## MCP Tools
 
-**OpenCode:**
+The MCP server provides two tools for AI assistants:
 
-```bash
-npx web-research-toolkit install opencode
-```
+- **`multi_search`** — Search DuckDuckGo with multiple queries in parallel. Returns deduplicated URLs, snippets, and titles.
+- **`fetch_pages`** — Fetch and extract clean text from multiple web pages in parallel. Uses Mozilla Readability for content extraction.
 
-## Architecture
+No API keys required. Works with any MCP-compatible client.
 
-Prompts are maintained once and work across platforms:
+See the [`web-research-mcp` README](https://www.npmjs.com/package/web-research-mcp) for tool parameters and examples.
 
-- **Canonical prompts** in `packages/toolkit/prompts/` — pure instructions, no frontmatter
-- **Platform templates** in `packages/toolkit/templates/` — frontmatter specific to each platform
-- **Installer** assembles frontmatter + prompt body at install time, replacing `{{placeholders}}` with metadata
-
-This means adding a new platform only requires new templates — the prompt content stays shared.
+---
 
 ## Development
 
@@ -128,13 +122,14 @@ packages/
 └── toolkit/   # web-research-toolkit — agent installer
 ```
 
-## Publishing
+---
 
-```bash
-npm publish -w packages/mcp
-npm publish -w packages/toolkit
-```
+## Contributing
+
+Contributions are welcome! Please open an issue or submit a pull request.
+
+---
 
 ## License
 
-MIT
+[MIT](https://github.com/NachoFLizaur/web-research/blob/main/LICENSE) © Nacho F. Lizaur
